@@ -55,6 +55,8 @@ Deploying on Heroku:
 --------------------
 On Heroku, first optionally copy and edit the config files as shown above,
 then create an app using this buildpack and finally push to your Heroku app.
+That's the tl;dr version - detailed steps below.
+
 
 Create an account on http://heroku.com/
 
@@ -66,9 +68,9 @@ Login into the Heroku:
 
      heroku login
 
-Clone or create your application:
+Clone this sample application or create your application:
 
-     git clone git://github.com/ramr/strongloop-quickstart-app.git dynode
+     git clone git://github.com/ramr/strongloop-paas-quickstart.git dynode
      # or cp -r ~/myapp/*  dynode
 
 Change directory to your application and optionally copy over the
@@ -165,7 +167,7 @@ Login into the CloudFoundry PaaS:
 
 Clone or create your application:
 
-     git clone git://github.com/ramr/strongloop-quickstart-app.git dynode
+     git clone git://github.com/ramr/strongloop-paas-quickstart.git dynode
      # or cp -r ~/myapp/*  dynode
 
 Change directory to your application and optionally copy over the
