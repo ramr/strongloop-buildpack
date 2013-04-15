@@ -373,6 +373,7 @@ function install_package_dependencies() {
   local ver=$(cat "$build_dir/$version_marker" 2> /dev/null)
   [ -n "$install_dir" ] && ver=$(cat "$install_dir/$version_marker")
   setup_paths_to_strongloop_binaries "$ver" "$install_dir"
+  set -x
 
   local platform_dir=$BUILDPACK_DIR/platform/$STRONGLOOP_PLATFORM
   [ -f "$platform_dir/vars.sh" ] && source "$platform_dir/vars.sh"
