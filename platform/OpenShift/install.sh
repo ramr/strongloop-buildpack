@@ -157,7 +157,7 @@ function install_strongloop_rhel_package() {
   rm -rf "$cache_dir/node_modules"
   local cachedcopy=$(dirname "$cache_dir/$STRONGLOOP_VENDOR_INSTALL_DIR")
   mkdir -p "$cachedcopy"
-  cp -r "$install_dir" "$cachedcopy"
+  cp -r "$install_dir" "$cachedcopy/"
 
   _write_profile_info "$@"
 

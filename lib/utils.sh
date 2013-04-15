@@ -286,8 +286,11 @@ function install_strongloop_node() {
     local install_dir=$STRONGLOOP_VENDOR_INSTALL_DIR
     local version_marker="$install_dir/version.installed"
     if [ -n "$install_dir" ] && [ -d "$cache_dir/$install_dir" ]; then
+      mkdir -p  "$build_dir/$install_dir/"
       print_message "  - Copying from cache $cache_dir/$install_dir ... "
-      cp -rp "$cache_dir/$install_dir" $(dirname "$build_dir/$install_dir")
+      dest_dir=$(dirname "$build_dir/$install_dir")
+      cp -RPp "$cache_dir/$install_dir" "$dest_dir/"
+      ls "$dest_dir/"
     fi
 
     local cached_marker="$cache_dir/$version_marker"
@@ -322,7 +325,7 @@ function cache_installed_packages() {
 
   if [ -n "$build_dir" ] && [ -d "$build_dir/node_modules" ]; then
     rm -rf $cache_dir/node_modules
-    cp -rp $build_dir/node_modules $cache_dir
+    cp -rpP $build_dir/node_modules $cache_dir
   fi
 
 }  #  End of function  cache_installed_packages.
@@ -350,7 +353,7 @@ function restore_cached_packages() {
   #  Got here, means we can restore from the cache (if any).
   if [ -d "$cache_dir/node_modules" ]; then
     rm -rf $build_dir/node_modules
-    cp -rp $cache_dir/node_modules $build_dir
+    cp -rpP $cache_dir/node_modules $build_dir
   fi
 
   return 0
@@ -373,7 +376,6 @@ function install_package_dependencies() {
   local ver=$(cat "$build_dir/$version_marker" 2> /dev/null)
   [ -n "$install_dir" ] && ver=$(cat "$install_dir/$version_marker")
   setup_paths_to_strongloop_binaries "$ver" "$install_dir"
-  set -x
 
   local platform_dir=$BUILDPACK_DIR/platform/$STRONGLOOP_PLATFORM
   [ -f "$platform_dir/vars.sh" ] && source "$platform_dir/vars.sh"
@@ -388,13 +390,11 @@ function install_package_dependencies() {
   pushd "$build_dir" > /dev/null
   restore_cached_packages "$@"
 
-  local fail_msg="  - npm install failed - see above for errors."
-
   #  TODO: Can't run npm install - since path is set to /usr/bin/node and
   #        that's not what Heroku's Slug or CloudFoundry's DEA uses.
   #        So invoke npm via node.
   HOME="$build_dir" "$slnode" "$slnpm" install 2>&1 | sed "s/^/\t/"
-  [ "${PIPESTATUS[0]}" = "0" ] || print_message "$fail_msg"
+  [ "${PIPESTATUS[0]}" = "0" ] || print_message "npm install failed"
 
   cache_installed_packages "$@"
   popd > /dev/null
