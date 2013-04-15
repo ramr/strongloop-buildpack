@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+
+#
+#  Usage: <path-to-strongloop-buildpack>/bin/release <build-directory>
+#
+
+cat <<RLSEEOF
+--
+config_vars:
+  PATH: strongloop/usr/bin:node_modules/.bin:/usr/local/bin:/usr/bin:/bin
+RLSEEOF

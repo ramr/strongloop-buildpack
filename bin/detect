@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+#
+#  Usage: <path-to-strongloop-buildpack>/bin/detect <build-directory>
+#
+
+build_dir=${1:-"./"}
+#  Have package.json or npm-shrinkwrap.json, 'tis Node ...
+#  A Node by any other name would still serve your requests evented!!
+if [ -f "$build_dir/package.json" ] ||
+   [ -f "$build_dir/npm-shrinkwrap.json" ]; then
+  echo "Node.js"
+  exit 0
+fi
+
+#  Ain't Node - atleast I don't think 'tis.
+#  Just remember you're never too old to rock-n-roll!!
+echo "no"
+exit 1
+

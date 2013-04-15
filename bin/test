@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+#
+#  Usage: <path-to-strongloop-buildpack>/bin/test <build-directory>
+#
+
+#  For buildpack development testing only.
+#  Create a Heroku app w/ the https://github.com/ddollar/buildpack-test
+#  buildpack and then push this repository/buildpack to that app
+#  to run the tests.
+

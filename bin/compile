@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+#
+#  Usage: <path-to-strongloop-buildpack>/bin/compile <build-directory>
+#            <cache-dir>
+
+thisdir=$(dirname "${BASH_SOURCE[0]}")
+BUILDPACK_DIR=$(cd -P -- "$thisdir/.." && pwd -P)
+source "$BUILDPACK_DIR/lib/utils.sh"
+
+
+#
+#  main():
+#
+build_dir=$1
+cache_dir=$2
+init_strongloop_env
+
+autodetect_platform
+
+
+#  The StrongLoop Node version installed is driven by the version specified
+#  in the app's strongloop/VERSION marker file (if any). If no version is
+#  specified, then the defaults from lib/vars.sh will be used.
+install_strongloop_node "$@"
+
+
+#  Install package dependencies specified in the .
+install_package_dependencies "$@"
+
