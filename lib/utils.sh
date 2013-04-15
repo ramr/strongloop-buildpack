@@ -285,8 +285,10 @@ function install_strongloop_node() {
   else
     local install_dir=$STRONGLOOP_VENDOR_INSTALL_DIR
     local version_marker="$install_dir/version.installed"
-    [ -n "$install_dir" ] && [ -d "$cache_dir/$install_dir" ] && \
+    if [ -n "$install_dir" ] && [ -d "$cache_dir/$install_dir" ]; then
+      print_message "  - Copying from cache $cache_dir/$install_dir ... "
       cp -rp "$cache_dir/$install_dir" $(dirname "$build_dir/$install_dir")
+    fi
 
     local cached_marker="$cache_dir/$version_marker"
     [ -f "$cached_marker" ] && ver_installed=$(cat "$cached_marker")
