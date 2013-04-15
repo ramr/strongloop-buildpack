@@ -8,5 +8,5 @@
 cat <<RLSEEOF
 --
 config_vars:
-  PATH: strongloop/usr/bin:node_modules/.bin:/usr/local/bin:/usr/bin:/bin
+  PATH: vendor/strongloop/usr/bin:node_modules/.bin:/usr/local/bin:/usr/bin:/bin
 RLSEEOF

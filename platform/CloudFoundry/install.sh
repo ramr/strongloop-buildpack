@@ -115,6 +115,9 @@ export STRONGLOOP_PACKAGE_DIR=$cache_dir
 export PATH="$bindir:node_modules/.bin:\$PATH"
 MYEOF
 
+   mkdir -p "$cache_dir/.profile.d"
+   cp -p "$profile_dir/strongloop.sh" "$cache_dir/.profile.d/"
+
 }  #  End of function  _write_profile_info.
 
 

@@ -290,7 +290,11 @@ function install_strongloop_node() {
       print_message "  - Copying from cache $cache_dir/$install_dir ... "
       dest_dir=$(dirname "$build_dir/$install_dir")
       cp -RPp "$cache_dir/$install_dir" "$dest_dir/"
-      ls "$dest_dir/"
+
+      if [ -d "$cache_dir/.profile.d" ]; then
+        mkdir -p "$build_dir/.profile.d/"
+        cp "$cache_dir/.profile.d/strongloop.sh" "$build_dir/.profile.d/"
+      fi
     fi
 
     local cached_marker="$cache_dir/$version_marker"
