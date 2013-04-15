@@ -253,6 +253,9 @@ function setup_paths_to_strongloop_binaries() {
   print_message "  - Setting version and bin dir env variables ..."
   export STRONGLOOP_VERSION="$1"
 
+  local platform_dir=$BUILDPACK_DIR/platform/$STRONGLOOP_PLATFORM
+  [ -f "$platform_dir/vars.sh" ] && source "$platform_dir/vars.sh"
+
   bindir=$STRONGLOOP_VENDOR_INSTALL_DIR/${STRONGLOOP_INSTALL_BIN_DIR#/}
   [ -n "$2" ] && bindir="$2/$bindir"
 
@@ -380,9 +383,6 @@ function install_package_dependencies() {
   local ver=$(cat "$build_dir/$version_marker" 2> /dev/null)
   [ -n "$install_dir" ] && ver=$(cat "$install_dir/$version_marker")
   setup_paths_to_strongloop_binaries "$ver" "$install_dir"
-
-  local platform_dir=$BUILDPACK_DIR/platform/$STRONGLOOP_PLATFORM
-  [ -f "$platform_dir/vars.sh" ] && source "$platform_dir/vars.sh"
 
   slnode=$STRONGLOOP_VENDOR_INSTALL_DIR/${STRONGLOOP_INSTALL_BIN_DIR#/}/node
   [ -n "$install_dir" ] && slnode="$install_dir/$slnode"
