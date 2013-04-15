@@ -378,6 +378,8 @@ function install_package_dependencies() {
   local platform_dir=$BUILDPACK_DIR/platform/$STRONGLOOP_PLATFORM
   [ -f "$platform_dir/vars.sh" ] && source "$platform_dir/vars.sh"
 
+  slnode=$STRONGLOOP_VENDOR_INSTALL_DIR/${STRONGLOOP_INSTALL_BIN_DIR#/}/node
+  [ -n "$install_dir" ] && slnode="$install_dir/$slnode"
   slnpm=$STRONGLOOP_VENDOR_INSTALL_DIR/${STRONGLOOP_INSTALL_BIN_DIR#/}/npm
   [ -n "$install_dir" ] && slnpm="$install_dir/$slnpm"
 
@@ -391,7 +393,7 @@ function install_package_dependencies() {
   #  TODO: Can't run npm install - since path is set to /usr/bin/node and
   #        that's not what Heroku's Slug or CloudFoundry's DEA uses.
   #        So invoke npm via node.
-  HOME="$build_dir" node "$slnpm" install 2>&1 | sed "s/^/\t/"
+  HOME="$build_dir" "$slnode" "$slnpm" install 2>&1 | sed "s/^/\t/"
   [ "${PIPESTATUS[0]}" = "0" ] || print_message "$fail_msg"
 
   cache_installed_packages "$@"
