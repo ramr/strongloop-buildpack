@@ -20,6 +20,9 @@ source "$SCRIPT_DIR/openshift_vars.sh"
 #  Source StrongLoop shell utility functions.
 source "$OPENSHIFT_DATA_DIR/strongloop/buildpack/lib/utils.sh"
 
+#  Autodetect platform to setup StrongLoop env variables.
+autodetect_platform
+
 #  Setup path to include the custom Node[.js] version.
 echo ""
 print_message "  - Adding StrongLoop Node version $ver to path"
