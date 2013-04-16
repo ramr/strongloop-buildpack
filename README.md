@@ -81,18 +81,16 @@ StrongLoop sample configuration
     git add strongloop
     git commit . -m 'Added StrongLoop config files'
 
-It is highly recommended that you bind your app to
-
-     process.env.STRONGLOOP_HOST + ':' + process.env.STRONGLOOP_PORT
-
-However using '0.0.0.0' and PORT will also work on CloudFoundry.
-Using the StrongLoop variables allows you to easily migrate your app
-between different PaaS platforms.
+For best portability reasons, it is highly recommended that you use a
+combination of StrongLoop variables and platform specific variables so that
+you may easily migrate your app between different PaaS platforms.
 
 Example: For an express app, use
 
-    expressapp.listen(process.env.STRONGLOOP_PORT || 3000,
-                      process.env.STRONGLOOP_HOST || '0.0.0.0',
+    expressapp.listen(process.env.STRONGLOOP_PORT ||  \
+                      process.env.VCAP_PORT || process.env.PORT || 3000,
+                      process.env.STRONGLOOP_HOST ||  \
+                      process.env.VCAP_HOST || '0.0.0.0',
                       function() { } );
 
 Install the required packages and optionally lock 'em down:
@@ -132,7 +130,7 @@ your OpenShift application.
 
     #  Add the quickstart upstream repo
     cd nodez
-    git remote add upstream git://github.com/ramr/strongloop-quickstart-app.git
+    git remote add upstream git://github.com/ramr/strongloop-paas-quickstart.git
     git pull -s recursive -X theirs upstream master
     cp -r $buildpackdir/samples/strongloop .
     git add strongloop
@@ -140,8 +138,8 @@ your OpenShift application.
     git push
 
 
-See http://github.com/ramr/strongloop-quickstart-app/README.md for more
-details.
+See https://github.com/ramr/strongloop-paas-quickstart/blob/master/README.md
+for more details.
 
 
 Deploying on CloudFoundry:
@@ -176,18 +174,16 @@ StrongLoop sample configuration
     cd dynode
     cp -r $buildpackdir/samples/strongloop .
 
-It is highly recommended that you bind your app to
-
-     process.env.STRONGLOOP_HOST + ':' + process.env.STRONGLOOP_PORT
-
-However using VCAP_APP_HOST and VCAP_APP_PORT will also work on
-CloudFoundry. Using the StrongLoop variables allows you to easily migrate
-your app between different PaaS platforms.
+For best portability reasons, it is highly recommended that you use a
+combination of StrongLoop variables and platform specific variables so that
+you may easily migrate your app between different PaaS platforms.
 
 Example: For an express app, use
 
-    expressapp.listen(process.env.STRONGLOOP_PORT || 3000,
-                      process.env.STRONGLOOP_HOST || '0.0.0.0',
+    expressapp.listen(process.env.STRONGLOOP_PORT ||  \
+                      process.env.VCAP_PORT || process.env.PORT || 3000,
+                      process.env.STRONGLOOP_HOST ||  \
+                      process.env.VCAP_HOST || '0.0.0.0',
                       function() { } );
 
 Install the required packages and optionally lock 'em down:
