@@ -13,6 +13,7 @@ source "$BUILDPACK_DIR/lib/utils.sh"
 #
 build_dir=$1
 cache_dir=$2
+echo "DEBUG: cf env = `env`"
 init_strongloop_env
 
 autodetect_platform
