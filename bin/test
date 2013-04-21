@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-#  Usage: <path-to-strongloop-buildpack>/bin/test <build-directory>
+#  Usage: <strongloop-buildpack>/bin/compile  <build-directory>
 #
 
 #  For buildpack development testing only.

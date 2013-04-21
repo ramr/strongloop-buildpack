@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+
 #
-#  Usage: <path-to-strongloop-buildpack>/bin/compile <build-directory>
-#            <cache-dir>
+#  Usage: <strongloop-buildpack>/bin/compile  <build-directory>  <cache-dir>
+#
 
 thisdir=$(dirname "${BASH_SOURCE[0]}")
 BUILDPACK_DIR=$(cd -P -- "$thisdir/.." && pwd -P)
@@ -14,7 +15,6 @@ source "$BUILDPACK_DIR/lib/utils.sh"
 build_dir=$1
 cache_dir=$2
 init_strongloop_env
-
 autodetect_platform
 
 
@@ -27,4 +27,4 @@ install_strongloop_node "$@"
 #  Install package dependencies specified in the .
 install_package_dependencies "$@"
 
-echo "DEBUG: done w/ compile"
+print_message "bin/compile completed @ $(date)"
