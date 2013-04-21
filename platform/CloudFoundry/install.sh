@@ -90,7 +90,6 @@ function download_strongloop_debian_package() {
 #    _write_profile_info  1.0.0-0.3.beta ~/myapp .cache/
 #
 function _write_profile_info() {
-  set -x
   local version=$1
   local build_dir=$2
   local cache_dir=$3

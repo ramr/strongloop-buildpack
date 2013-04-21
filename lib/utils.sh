@@ -401,7 +401,6 @@ function install_package_dependencies() {
   HOME="$build_dir" "$slnode" "$slnpm" install 2>&1 | sed "s/^/\t/"
   [ "${PIPESTATUS[0]}" = "0" ] || print_message "npm install failed"
 
-  set -x
   cache_installed_packages "$@"
   popd > /dev/null
 

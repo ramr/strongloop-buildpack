@@ -19,7 +19,7 @@ autodetect_platform > /dev/null 2>&1
 
 #  For now only do the yaml generation on Heroku.
 #  CloudFoundry support is not completely there as yet.
-if [ "$STRONGLOOP_PLATFORM = "Heroku" ]; then
+if [ "$STRONGLOOP_PLATFORM" = "Heroku" ]; then
    cat <<RLSEEOF
 --
 config_vars:
