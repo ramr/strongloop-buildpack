@@ -112,7 +112,8 @@ function determine_linux_distro() {
 #    cloudfoundry_paas_check
 #
 function cloudfoundry_paas_check() {
-  [[ -n "$VCAP_APP_HOST"  &&  -n "$VCAP_APP_PORT" ]] || return 1;
+  [[ -n "$VCAP_APP_HOST"  &&  -n "$VCAP_APP_PORT" ]] ||  \
+    [ "$USER" = "vcap" ] || return 1;
 
   export STRONGLOOP_PLATFORM="CloudFoundry"
   export STRONGLOOP_HOST=$VCAP_APP_HOST
