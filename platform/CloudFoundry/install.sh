@@ -107,8 +107,8 @@ function _write_profile_info() {
   cat > "$profile_dir/strongloop.sh" <<MYEOF
 #  StrongLoop installation information.
 export STRONGLOOP_PLATFORM=${STRONGLOOP_PLATFORM:-"$cfg_platform"}
-export STRONGLOOP_HOST=${STRONGLOOP_HOST:-"0.0.0.0"}
-export STRONGLOOP_PORT=${STRONGLOOP_PORT:-"$PORT"}
+export STRONGLOOP_HOST=\${VCAP_APP_HOST:-"0.0.0.0"}
+export STRONGLOOP_PORT=\${VCAP_APP_PORT:-"3000"}
 export STRONGLOOP_VERSION=${STRONGLOOP_VERSION:-"$default_version"}
 export STRONGLOOP_BIN_DIR=$bindir
 export STRONGLOOP_PACKAGE_DIR=$cache_dir
