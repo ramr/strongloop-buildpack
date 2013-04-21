@@ -27,3 +27,4 @@ install_strongloop_node "$@"
 #  Install package dependencies specified in the .
 install_package_dependencies "$@"
 
+echo "DEBUG: done w/ compile"
