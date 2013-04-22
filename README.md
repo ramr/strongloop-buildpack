@@ -188,11 +188,11 @@ Login into the CloudFoundry PaaS:
 
 Target the CloudFoundry PaaS:
 
-     cf target https://api.cloudfoundry.com
+     #  Normally, this would just be:
+     #  cf target https://api.cloudfoundry.com
 
-For running this on the test/beta environment, which has buildpack support,
-you will need to instead target that environment. Example:
-
+     #  But for the buildpack support, you will need to target the
+     #  test/beta environment instead.
      cf target api.a1.cf-app.com
 
 Clone or create your application:
