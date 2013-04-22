@@ -153,6 +153,10 @@ function install_strongloop_rhel_package() {
   rpm2cpio "$cache_dir/$pkgfile" | cpio -idm
   popd > /dev/null
 
+  npm_bin="$install_dir/$STRONGLOOP_INSTALL_BIN_DIR/npm"
+  print_message "  - Fixing npm shebang to use: /bin/env node ..."
+  sed -i  "s#/usr/bin/node#/bin/env node#" "$npm_bin"
+
   print_message "  - Installing $pkgfile package ..."
   rm -rf "$cache_dir/node_modules"
   local cachedcopy=$(dirname "$cache_dir/$STRONGLOOP_VENDOR_INSTALL_DIR")
