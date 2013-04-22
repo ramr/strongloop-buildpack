@@ -12,7 +12,7 @@ build_dir=${1:-"./"}
 #  Have package.json or npm-shrinkwrap.json, 'tis Node ...
 #  A Node by any other name would still serve your requests evented!!
 for f in package.json npm-shrinkwrap.json; do
-  if [ -f "$f" ]; then
+  if [ -f "$build_dir/$f" ]; then
     echo "Node.js"
     exit 0
   fi
