@@ -144,7 +144,7 @@ function _fixup_npm_binary() {
   fi
 
   cat > "$bindir/npm" <<NPMEOF
-#\!/bin/bash
+#!/bin/bash
 
 exec node $libdir/node_modules/npm/cli.js "\$@"
 NPMEOF
