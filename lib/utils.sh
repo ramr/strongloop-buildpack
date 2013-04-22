@@ -264,9 +264,6 @@ function setup_paths_to_strongloop_binaries() {
   print_message "  - Setting PATH to include $bindir"
   export PATH="$bindir:node_modules/.bin:${PATH}"
 
-  libdir=$(dirname "$bindir")/lib
-  print_message "  - Setting NODE_PATH to include $libdir"
-  export NODE_PATH=$libdir
   return $?
 
 }  #  End of function  setup_paths_to_strongloop_binaries.
