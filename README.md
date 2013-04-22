@@ -1,11 +1,16 @@
 StrongLoop Node BuildPack
 =========================
 
-This repository is a StrongLoop Node buildpack to enable users to run
+This repository is a StrongLoop Node buildpack to allow you to run
 StrongLoop Node as a runtime "service" on a few different PaaS
-environments. Currently run's on SalesForce's Heroku and Red Hat's
-OpenShift PaaS.
-VMWare's CloudFoundry support is *work-in-progress*  ... stay tuned
+environments. Currently supported PaaS environments are:
+
+    SalesForce's Heroku
+    Red Hat's OpenShift
+    VMWare's CloudFoundry
+
+
+Okay, now onto how to use this buildpack.
 
 
 Copy StrongLoop Node configuration files [OPTIONAL]
@@ -16,6 +21,7 @@ version you want to install + what deployment mode to run in you will need
 to provide StrongLoop specific configuration files, so in such as case
 using the sample configuration is a good start.
 
+    #  Copy the config files to your app in a strongloop/ directory.
     cd myapp
     cp -r $local_path_to_this_buildpack/samples/strongloop .
 
@@ -71,7 +77,8 @@ Login into the Heroku:
 Clone this sample application or create your application:
 
      git clone git://github.com/ramr/strongloop-paas-quickstart.git dynode
-     # or cp -r ~/myapp/*  dynode
+     # OR  git clone ${path_to_your_awesome_app}.git dynode
+     # OR  cp -r ~/myapp/*  dynode
 
 Change directory to your application and optionally copy over the
 StrongLoop sample configuration
@@ -81,24 +88,29 @@ StrongLoop sample configuration
     git add strongloop
     git commit . -m 'Added StrongLoop config files'
 
-For best portability reasons, it is highly recommended that you use a
-combination of StrongLoop variables and platform specific variables so that
-you may easily migrate your app between different PaaS platforms.
+For portability reasons, it is highly recommended that you use StrongLoop
+variables or alternatively a combination of the platform specific variables
+so that you may easily migrate your app between the different PaaS
+enviroments.
 
 Example: For an express app, use
 
-    expressapp.listen(process.env.STRONGLOOP_PORT ||  \
-                      process.env.VCAP_PORT || process.env.PORT || 3000,
-                      process.env.STRONGLOOP_HOST ||  \
-                      process.env.VCAP_HOST || '0.0.0.0',
-                      function() { } );
+    zapp.listen(process.env.STRONGLOOP_PORT, process.env.STRONGLOOP_HOST,
+                function() { } );
+    #  OR
+    zapp.listen(process.env.STRONGLOOP_PORT ||  \
+                  process.env.VCAP_PORT || process.env.PORT || 3000,
+                process.env.STRONGLOOP_HOST ||  \
+                  process.env.VCAP_HOST || '0.0.0.0',
+                function() { } );
 
-Install the required packages and optionally lock 'em down:
+Install the required packages and optionally lock 'em down (set 'in-stone'
+the versions of the dependent packages you want to use):
 
     npm install
     npm shrinkwrap
 
-You can optionally run the application locally by just running:
+You can also run the application locally via:
 
     npm start
 
@@ -108,9 +120,9 @@ And when you are satisfied that all's ok, just push your app to Heroku:
     heroku apps:create -b git://github.com/ramr/strongloop-buildpack.git
     git push heroku master
 
-This will now download and configure StrongLoop Node on CloudFoundry,
-install the dependencies as specified in the sample application's
-package.json file (or npm-shrinkwrap.json if one exists).
+This will download and configure StrongLoop Node on Heroku, install the
+dependencies as specified in the sample application's package.json file
+(or npm-shrinkwrap.json if one exists).
 
 That's it, you can now checkout your StrongLoop Node application at the
 app url/domain returned from the heroku apps:create command.
@@ -120,7 +132,7 @@ app url/domain returned from the heroku apps:create command.
 
 Deploying on OpenShift:
 -----------------------
-On OpenShift, the easiest method is to create an app using the sample PaaS
+On OpenShift, the fastest method is to create an app using the sample PaaS
 app quickstart (which already contains a copy of the StrongLoop config
 markers), edit the config files as per your need and then just git push to
 your OpenShift application.
@@ -144,72 +156,95 @@ for more details.
 
 Deploying on CloudFoundry:
 --------------------------
-On CloudFoundry, this buildpack is still *work-in-progress* and untested,
-so you may run into issues. See: http://xkcd.com/1084/ for details!!
-Kidding aside, the procedure should be the same as the others - first copy
-the config files and then push to your CloudFoundry app.
+On CloudFoundry, support for buildpacks is not yet released to prod, so as
+of now, you will need access to a test/beta environment to run this.
+The overall procedure is sorta similar to the others - first optionally
+copy the config files and then push to your CloudFoundry app.
+
 
 Create an account on http://cloudfoundry.com/
 
-Install the vmc command line tools
+For now, you will also need to register for the test/beta env @
+
+    http://console.a1.cf-app.com/register 
+
+
+Install the cf command line tools
+
+     sudo gem install cf --pre
+
+     #  If you run into issues w/ dependencies if you have the older vmc
+     #  tools installed, then try doing:
+     #  sudo gem install cfoundry
+     #  sudo gem install cf --pre
+     #  sudo gem install cfoundry --pre
+     #  sudo gem install manifests-cf-plugin --pre
 
      See: http://docs.cloudfoundry.com/tools/vmc/installing-vmc.html
 
-Target the CloudFoundry PaaS:
-
-     vmc target https://api.cloudfoundry.com
-
 Login into the CloudFoundry PaaS:
 
-     vmc login
+     cf login
+
+Target the CloudFoundry PaaS:
+
+     cf target https://api.cloudfoundry.com
+
+For running this on the test/beta environment, which has buildpack support,
+you will need to instead target that environment. Example:
+
+     cf target api.a1.cf-app.com
 
 Clone or create your application:
 
      git clone git://github.com/ramr/strongloop-paas-quickstart.git dynode
-     # or cp -r ~/myapp/*  dynode
+     # OR  git clone ${path_to_your_awesome_app}.git dynode
+     # OR  cp -r ~/myapp/*  dynode
 
 Change directory to your application and optionally copy over the
-StrongLoop sample configuration
+StrongLoop sample configuration.
 
     cd dynode
     cp -r $buildpackdir/samples/strongloop .
 
-For best portability reasons, it is highly recommended that you use a
-combination of StrongLoop variables and platform specific variables so that
-you may easily migrate your app between different PaaS platforms.
+For portability reasons, it is highly recommended that you use StrongLoop
+variables or alternatively a combination of the platform specific variables
+so that you may easily migrate your app between the different PaaS
+enviroments.
 
 Example: For an express app, use
 
-    expressapp.listen(process.env.STRONGLOOP_PORT ||  \
-                      process.env.VCAP_PORT || process.env.PORT || 3000,
-                      process.env.STRONGLOOP_HOST ||  \
-                      process.env.VCAP_HOST || '0.0.0.0',
-                      function() { } );
+    zapp.listen(process.env.STRONGLOOP_PORT, process.env.STRONGLOOP_HOST,
+                function() { } );
+    #  OR
+    zapp.listen(process.env.STRONGLOOP_PORT ||  \
+                  process.env.VCAP_PORT || process.env.PORT || 3000,
+                process.env.STRONGLOOP_HOST ||  \
+                  process.env.VCAP_HOST || '0.0.0.0',
+                function() { } );
 
-Install the required packages and optionally lock 'em down:
+Install the required packages and optionally lock 'em down (set 'in-stone'
+the versions of the dependent packages you want to use):
 
     npm install
     npm shrinkwrap
 
-You can optionally run the application locally by just running:
+You can also run the application locally via:
 
     npm start
 
-And when you are satisfied or then since this is a PaaS specific
-quickstart, just push to CloudFoundry:
+And when you are satisfied that all's ok, push your app to CloudFoundry.
 
-    vmc push dynode
+    cf push dynode
       --buildpack=git://github.com/ramr/strongloop-buildpack.git
-      --no-create-services --instances 1 --memory 128M --framework node
+      --no-create-services --instances 1 --memory 128M
 
 Note:  The first time you run vmc push, you will need to specify all the
-       parameters - this will create a new application at CloudFoundry
-       and you will need to specify the runtime `node08` (yeah bit klunky
-       as the PaaS environments have older versions),
+       parameters - this will create a new application at CloudFoundry.
        domain `example: slnode-app.cloudfoundry.com`.
        And save the configuration `example: y`.
 
-Subsequent pushes just need the `vmc push` command - you only need to
+Subsequent pushes just need the `cf push` command - you only need to
 specify all those options the first time you create the app (push).
 
 This will now download and configure StrongLoop Node on CloudFoundry,
