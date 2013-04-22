@@ -131,6 +131,30 @@ MYEOF
 
 
 #
+#  Fixup npm binary.
+#
+function _fixup_npm_binary() {
+  install_dir=${1:-"./"}
+  bindir="$install_dir/$STRONGLOOP_INSTALL_BIN_DIR"
+  libdir="$install_dir/$STRONGLOOP_INSTALL_LIB_DIR"
+
+  if [ -f "$bindir/npm" ]; then
+    # sed -i "s#/usr/bin/node#/usr/bin/env node#" "$bindir/npm"
+    mv "$bindir/npm" "$bindir/npm.orig"
+  fi
+
+  cat > "$bindir/npm" <<NPMEOF
+#\!/bin/bash
+
+exec node $libdir/node_modules/npm/cli.js "\$@"
+NPMEOF
+
+  chmod +x "$bindir/npm"
+
+} #  End of function  _fixup_npm_binary.
+
+
+#
 #  Install's StrongLoop Node RHEL package.
 #
 function install_strongloop_rhel_package() {
@@ -153,9 +177,7 @@ function install_strongloop_rhel_package() {
   rpm2cpio "$cache_dir/$pkgfile" | cpio -idm
   popd > /dev/null
 
-  npm_bin="$install_dir/$STRONGLOOP_INSTALL_BIN_DIR/npm"
-  print_message "  - Fixing npm shebang to use: /bin/env node ..."
-  sed -i  "s#/usr/bin/node#/bin/env node#" "$npm_bin"
+  _fixup_npm_binary "$install_dir"
 
   print_message "  - Installing $pkgfile package ..."
   rm -rf "$cache_dir/node_modules"
