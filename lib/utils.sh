@@ -380,6 +380,7 @@ function install_package_dependencies() {
   local cache_dir=$2
   local install_dir=$3
 
+  print_message "  - Installing package dependencies ..."
   local version_marker="$STRONGLOOP_VENDOR_INSTALL_DIR/version.installed"
   local ver=$(cat "$build_dir/$version_marker" 2> /dev/null)
   [ -n "$install_dir" ] && ver=$(cat "$install_dir/$version_marker")
@@ -393,14 +394,17 @@ function install_package_dependencies() {
   set_node_deployment_env "$build_dir"
 
   pushd "$build_dir" > /dev/null
+  print_message "  - Restoring cached packages ..."
   restore_cached_packages "$@"
 
   #  TODO: Can't run npm install - since path is set to /usr/bin/node and
   #        that's not what Heroku's Slug or CloudFoundry's DEA uses.
   #        So invoke npm via node.
+  print_message "  - Installing packages ..."
   HOME="$build_dir" "$slnode" "$slnpm" install 2>&1 | sed "s/^/\t/"
   [ "${PIPESTATUS[0]}" = "0" ] || print_message "npm install failed"
 
+  print_message "  - Caching installed packages ..."
   cache_installed_packages "$@"
   popd > /dev/null
 
