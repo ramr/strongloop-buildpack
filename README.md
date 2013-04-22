@@ -74,7 +74,7 @@ Login into the Heroku:
 
      heroku login
 
-Clone this sample application or create your application:
+Clone the sample application or create your application:
 
      git clone git://github.com/ramr/strongloop-paas-quickstart.git dynode
      # OR  git clone ${path_to_your_awesome_app}.git dynode
