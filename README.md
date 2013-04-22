@@ -144,9 +144,11 @@ your OpenShift application.
     cd nodez
     git remote add upstream git://github.com/ramr/strongloop-paas-quickstart.git
     git pull -s recursive -X theirs upstream master
+
     cp -r $buildpackdir/samples/strongloop .
     git add strongloop
     git commit . -m 'Added StrongLoop config files'
+
     git push
 
 
@@ -174,7 +176,12 @@ Install the cf command line tools
      sudo gem install cf --pre
 
      #  If you run into issues w/ dependencies if you have the older vmc
-     #  tools installed, then try doing:
+     #  tools installed, then try uninstalling the vmc tools + other
+     #  gems and run something like:
+     #  sudo gem uninstall vmc cf
+     #  sudo gem uninstall tunnel-cf-plugin cf-uaa-lib manifests-cf-plugin
+     #  sudo gem uninstall caldecott-client cfoundry
+     #
      #  sudo gem install cfoundry
      #  sudo gem install cf --pre
      #  sudo gem install cfoundry --pre
