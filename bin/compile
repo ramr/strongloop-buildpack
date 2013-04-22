@@ -27,4 +27,4 @@ install_strongloop_node "$@"
 #  Install package dependencies specified in the .
 install_package_dependencies "$@"
 
-print_message "bin/compile completed @ $(date)"
+print_message "  - StrongLoop buildpack bin/compile completed @ $(date)"
