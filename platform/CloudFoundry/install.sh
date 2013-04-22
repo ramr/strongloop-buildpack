@@ -109,7 +109,7 @@ function _write_profile_info() {
 export STRONGLOOP_PLATFORM=${STRONGLOOP_PLATFORM:-"$cfg_platform"}
 export STRONGLOOP_HOST=\${VCAP_APP_HOST:-"0.0.0.0"}
 export STRONGLOOP_PORT=\${VCAP_APP_PORT:-"3000"}
-export STRONGLOOP_VERSION=${STRONGLOOP_VERSION:-"$default_version"}
+export STRONGLOOP_VERSION=${version:-"$default_version"}
 export STRONGLOOP_BIN_DIR=$bindir
 export STRONGLOOP_PACKAGE_DIR=$cache_dir
 export PATH="$bindir:node_modules/.bin:\$PATH"
