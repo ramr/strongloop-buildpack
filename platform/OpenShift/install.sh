@@ -131,25 +131,16 @@ MYEOF
 
 
 #
-#  Fixup npm binary.
+#  Fixup npm binary - shebang line.
 #
 function _fixup_npm_binary() {
   install_dir=${1:-"./"}
   bindir="$install_dir/$STRONGLOOP_INSTALL_BIN_DIR"
-  libdir="$install_dir/$STRONGLOOP_INSTALL_LIB_DIR"
 
-  if [ -f "$bindir/npm" ]; then
-    # sed -i "s#/usr/bin/node#/usr/bin/env node#" "$bindir/npm"
-    mv "$bindir/npm" "$bindir/npm.orig"
-  fi
+  [ -f "$bindir/npm" ] && \
+    sed -i "s#/usr/bin/node#/bin/env node#" "$bindir/npm"
 
-  cat > "$bindir/npm" <<NPMEOF
-#!/bin/bash
-
-exec node $libdir/node_modules/npm/cli.js "\$@"
-NPMEOF
-
-  chmod +x "$bindir/npm"
+  return 0
 
 } #  End of function  _fixup_npm_binary.
 
