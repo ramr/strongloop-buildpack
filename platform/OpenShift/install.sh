@@ -131,14 +131,22 @@ MYEOF
 
 
 #
-#  Fixup npm binary - shebang line.
+#  Fixup npm binary to be a symlink to npm-cli.js - extracted rpm files
+#  are a copy.
 #
 function _fixup_npm_binary() {
   install_dir=${1:-"./"}
   bindir="$install_dir/$STRONGLOOP_INSTALL_BIN_DIR"
 
-  [ -f "$bindir/npm" ] && \
-    sed -i "s#/usr/bin/node#/bin/env node#" "$bindir/npm"
+  pushd "$bindir" > /dev/null
+  rel_npm_cli_js="../lib/node_modules/npm/bin/npm-cli.js"
+
+  #  Ensure npm uses the right node executable.
+  sed -i "s#/usr/bin/node#/bin/env node#" "$rel_npm_cli_js"
+
+  rm -f npm
+  ln -s ../lib/node_modules/npm/bin/npm-cli.js npm
+  popd > /dev/null
 
   return 0
 
